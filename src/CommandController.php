@@ -8,6 +8,8 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Artisan;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 
 class CommandController extends Controller
 {
@@ -16,15 +18,16 @@ class CommandController extends Controller
         $commands = Artisan::all();
 
         $allowedCommands = collect($commands)
-            ->filter(function ($command) {
-                $definition = $command->getDefinition();
-                return $definition->hasOption('laravel-assistant');
-            })
+            ->filter(fn($command) => $command->getDefinition()->hasOption('laravel-assistant'))
             ->map(fn($command) => [
                 'command' => $command->getName(),
                 'description' => $command->getDescription(),
-                'arguments' => collect($command->getDefinition()->getArguments())->pluck('name')->values(),
-                'options' => collect($command->getDefinition()->getOptions())->pluck('name')->values(),
+                'arguments' => collect($command->getDefinition()->getArguments())
+                    ->map(fn(InputArgument $arg) => $arg->getName())
+                    ->values(),
+                'options' => collect($command->getDefinition()->getOptions())
+                    ->map(fn(InputOption $opt) => $opt->getName())
+                    ->values(),
             ])
             ->values();
 

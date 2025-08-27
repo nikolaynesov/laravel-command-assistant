@@ -88,3 +88,23 @@ it('execute runs the command, appends flag, stores audit record and returns outp
     $record = \DB::table('executed_assistant_commands')->latest('id')->first();
     expect($record->command)->toBe('demo:assistant --laravel-assistant');
 });
+
+
+it('execute rejects default Laravel commands without the assistant option (e.g., list)', function () {
+    // Act: attempt to execute the built-in `list` command which does not declare --laravel-assistant
+    $response = $this->withHeaders([
+        'Authorization' => 'Bearer test-key',
+        'Accept' => 'application/json',
+    ])->postJson(route('command-assistant.execute'), [
+        'command_string' => 'list',
+    ]);
+
+    // Assert HTTP 403 and error message
+    $response->assertStatus(403);
+    $response->assertJson([
+        'error' => 'This command is not available for the assistant.'
+    ]);
+
+    // Assert no audit record was created
+    $this->assertDatabaseCount('executed_assistant_commands', 0);
+});
