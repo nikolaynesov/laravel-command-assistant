@@ -1,0 +1,95 @@
+openapi: 3.0.1
+info:
+  title: Laravel Command Assistant
+  description: Safely list and execute specific Laravel artisan commands from a GPT-based interface.
+  version: '1.0.0'
+
+servers:
+  - url: https://api.changeme.com/
+
+paths:
+  /available-commands:
+    get:
+      summary: Get available commands that the assistant can run
+      operationId: getAvailableCommands
+      responses:
+        '200':
+          description: List of allowed commands
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    command:
+                      type: string
+                    description:
+                      type: string
+                    arguments:
+                      type: array
+                      items:
+                        type: string
+                    options:
+                      type: array
+                      items:
+                        type: string
+
+  /execute-command:
+    post:
+      summary: Execute a safe Laravel command
+      operationId: executeCommand
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                command_string:
+                  type: string
+                  example: "cache:clear"
+                executed_by:
+                  type: string
+                  example: "developer@mykolanesov.com"
+      responses:
+        '200':
+          description: Command output
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  output:
+                    type: string
+        '400':
+          description: Invalid or unknown command
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        '403':
+          description: Command is not allowed for assistant
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        '500':
+          description: Command execution failed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  message:
+                    type: string

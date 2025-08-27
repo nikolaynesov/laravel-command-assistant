@@ -1,0 +1,42 @@
+{
+  "name": "nikolaynesov/laravel-command-assistant",
+  "description": "Laravel plugin to allow GPT-triggered command execution with authorization and audit logging",
+  "type": "library",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Nikolaynesov\\LaravelCommandAssistant\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Nikolaynesov\\LaravelCommandAssistant\\Tests\\": "tests/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Nikolaynesov\\LaravelCommandAssistant\\LaravelCommandAssistantServiceProvider"
+      ]
+    }
+  },
+  "require": {
+    "php": ">=8.1",
+    "illuminate/support": "^10.0|^11.0"
+  },
+  "require-dev": {
+    "orchestra/testbench": "^8.0",
+    "pestphp/pest": "^2.0",
+    "pestphp/pest-plugin-laravel": "^2.0"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "scripts": {
+    "test": "pest"
+  },
+  "config": {
+    "allow-plugins": {
+      "pestphp/pest-plugin": true
+    }
+  }
+}

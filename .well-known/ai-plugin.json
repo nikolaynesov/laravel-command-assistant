@@ -1,0 +1,14 @@
+{
+  "schema_version": "v1",
+  "name_for_model": "laravel_command_assistant",
+  "name_for_human": "Laravel Command Assistant",
+  "description_for_model": "Use this tool to list and execute allowed Laravel artisan commands via assistant. Only whitelisted commands are available.",
+  "description_for_human": "Securely execute safe Laravel artisan commands via GPT.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "/vendor/laravel-command-assistant/.well-known/openapi.yaml"
+  }
+}
