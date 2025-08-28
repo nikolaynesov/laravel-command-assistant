@@ -3,6 +3,7 @@
   "description": "Laravel plugin to allow GPT-triggered command execution with authorization and audit logging",
   "type": "library",
   "license": "MIT",
+  "version": "0.0.2",
   "autoload": {
     "psr-4": {
       "Nikolaynesov\\LaravelCommandAssistant\\": "src/"
