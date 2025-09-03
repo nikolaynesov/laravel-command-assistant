@@ -3,7 +3,6 @@
 namespace Nikolaynesov\LaravelCommandAssistant;
 
 use Exception;
-use Nikolaynesov\LaravelCommandAssistant\ExecutedAssistantCommand;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -26,6 +25,7 @@ class CommandController extends Controller
                     ->map(fn(InputArgument $arg) => $arg->getName())
                     ->values(),
                 'options' => collect($command->getDefinition()->getOptions())
+                    ->reject(fn(InputOption $opt) => $opt->getName() === 'laravel-assistant')
                     ->map(fn(InputOption $opt) => $opt->getName())
                     ->values(),
             ])
